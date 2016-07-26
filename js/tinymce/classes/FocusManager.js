@@ -42,7 +42,7 @@ define("tinymce/FocusManager", [
 		}
 
 		// We can't store a real range on IE 11 since it gets mutated so we need to use a bookmark object
-		// TODO: Move this to a separate range utils class since it's it's logic is present in Selection as well.
+		// TODO: Move this to a separate range utils class since its logic is present in Selection as well.
 		function createBookmark(dom, rng) {
 			if (rng && rng.startContainer) {
 				// Verify that the range is within the root of the editor
@@ -95,7 +95,7 @@ define("tinymce/FocusManager", [
 							try {
 								editor.lastRng = editor.selection.getRng();
 							} catch (ex) {
-								// IE throws "Unexcpected call to method or property access" some times so lets ignore it
+								// IE throws "Unexpected call to method or property access" some times so lets ignore it
 							}
 						});
 					} else {
