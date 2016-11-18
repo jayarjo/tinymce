@@ -69,22 +69,8 @@ tinymce.PluginManager.add('media', function(editor, url) {
 
 	function showDialog() {
 		var win, width, height, data;
-
-		var generalFormItems = [
-			{
-				name: 'source1',
-				type: 'filepicker',
-				filetype: 'media',
-				size: 40,
-				autofocus: true,
-				label: 'Source',
-				onchange: function(e) {
-					tinymce.each(e.meta, function(value, key) {
-						win.find('#' + key).value(value);
-					});
-				}
-			}
-		];
+		var generalFormItems = [];
+		var embedTextBox;
 
 		function recalcSize(e) {
 			var widthCtrl, heightCtrl, newWidth, newHeight;
@@ -115,6 +101,30 @@ tinymce.PluginManager.add('media', function(editor, url) {
 			height = newHeight;
 		}
 
+		data = getData(editor.selection.getNode());
+		width = data.width;
+		height = data.height;
+
+		generalFormItems.push({
+			name: 'source1',
+			type: 'filepicker',
+			filetype: 'media',
+			size: 40,
+			autofocus: true,
+			label: 'Source',
+			meta: {
+				width: width,
+				height: height,
+				label: '',
+				constrain: true
+			},
+			onchange: function(e) {
+				tinymce.each(e.meta, function(value, key) {
+					win.find('#' + key).value(value);
+				});
+			}
+		});
+
 		if (editor.settings.media_alt_source !== false) {
 			generalFormItems.push({name: 'source2', type: 'filepicker', filetype: 'media', size: 40, label: 'Alternative source'});
 		}
@@ -139,11 +149,7 @@ tinymce.PluginManager.add('media', function(editor, url) {
 			});
 		}
 
-		data = getData(editor.selection.getNode());
-		width = data.width;
-		height = data.height;
-
-		var embedTextBox = {
+		embedTextBox = {
 			id: 'mcemediasource',
 			type: 'textbox',
 			flex: 1,
